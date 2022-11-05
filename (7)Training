@@ -4,3 +4,5 @@ history = model.fit_generator(train_generator,
                           epochs=15,
                           validation_steps=50,
                           verbose=2)
+#note
+see 4 values per epoch – Loss, Accuracy, Validation Loss and Validation Accuracy.
