@@ -67,3 +67,7 @@ plt.figure( figsize=(scale * n_features, scale) )
 plt.title ( layer_name )
 plt.grid  ( False )
 plt.imshow( display_grid, aspect='auto', cmap='viridis' ) 
+
+
+#note
+It is overfitting. (High performance in training set and poor performance in validation set). After 2 epochs, the accuracy of validation set is barely changed.
