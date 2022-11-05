@@ -1,0 +1,45 @@
+# Get 2000 images
+!wget --no-check-certificate \
+https://storage.googleapis.com/mledu-datasets/cats_and_dogs_filtered.zip \
+-O /tmp/cats_and_dogs_filtered.zip
+
+import os
+import zipfile
+
+local_zip = '/tmp/cats_and_dogs_filtered.zip'
+
+zip_ref = zipfile.ZipFile(local_zip, 'r')
+
+zip_ref.extractall('/tmp')
+zip_ref.close()
+
+# ----------------
+
+base_dir = '/tmp/cats_and_dogs_filtered'
+
+train_dir = os.path.join(base_dir, 'train')
+validation_dir = os.path.join(base_dir, 'validation')
+
+# Directory with our training cat/dog pictures
+train_cats_dir = os.path.join(train_dir, 'cats')
+train_dogs_dir = os.path.join(train_dir, 'dogs')
+
+# Directory with our validation cat/dog pictures
+validation_cats_dir = os.path.join(validation_dir, 'cats')
+validation_dogs_dir = os.path.join(validation_dir, 'dogs')
+
+# ----------------
+
+train_cat_fnames = os.listdir( train_cats_dir )
+train_dog_fnames = os.listdir( train_dogs_dir )
+
+print(train_cat_fnames[:10])  # ['cat.152.jpg', 'cat.72.jpg', 'cat.118.jpg', ....]
+print(train_dog_fnames[:10])  # ['dog.909.jpg', 'dog.654.jpg', 'dog.960.jpg', ...]
+
+# ----------------
+
+print('total training cat images :', len(os.listdir(      train_cats_dir ) ))  # total training cat images : 1000
+print('total training dog images :', len(os.listdir(      train_dogs_dir ) )) # total training dog images : 1000
+
+print('total validation cat images :', len(os.listdir( validation_cats_dir ) )) # total validation cat images : 500
+print('total validation dog images :', len(os.listdir( validation_dogs_dir ) ))  # total validation dog images : 500
