@@ -1,0 +1,7 @@
+%tensorflow_version 2.x
+
+import tensorflow as tf
+print(tf.__version__)
+
+#note
+The 2,000 images used in this exercise are excerpted from the “Dogs vs. Cats” dataset available on Kaggle, which contains 25,000 images
