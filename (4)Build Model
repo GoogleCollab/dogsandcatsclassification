@@ -33,4 +33,6 @@ sp.axis('Off') # Don't show axes (or gridlines)
 img = mpimg.imread(img_path)
 plt.imshow(img)
 
+
+
 plt.show()
