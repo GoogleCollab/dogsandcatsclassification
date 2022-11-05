@@ -1,0 +1,107 @@
+rotation_range is a value in degrees (0–180), a range within which to randomly rotate pictures.
+width_shift and height_shift are ranges (as a fraction of total width or height) within which to randomly translate pictures vertically or horizontally.
+shear_range is for randomly applying shearing transformations.
+zoom_range is for randomly zooming inside pictures.
+horizontal_flip is for randomly flipping half of the images horizontally. This is relevant when there are no assumptions of horizontal assymmetry (e.g. real-world pictures).
+fill_mode is the strategy used for filling in newly created pixels, which can appear after a rotation or a width/height shift.
+code:
+
+TRAINING_DIR = "/tmp/cats-v-dogs/training/"
+train_datagen = ImageDataGenerator(rescale=1./255,
+      rotation_range=40,
+      width_shift_range=0.2,
+      height_shift_range=0.2,
+      shear_range=0.2,
+      zoom_range=0.2,
+      horizontal_flip=True,
+      fill_mode='nearest')
+train_generator = train_datagen.flow_from_directory(TRAINING_DIR,
+                                                    batch_size=100,
+                                                    class_mode='binary',
+                                                    target_size=(150, 150))
+
+VALIDATION_DIR = "/tmp/cats-v-dogs/testing/"
+# Experiment with your own parameters here to really try to drive it to 99.9% accuracy or better
+validation_datagen = ImageDataGenerator(rescale=1./255)
+validation_generator = validation_datagen.flow_from_directory(VALIDATION_DIR,
+                                                              batch_size=100,
+                                                              class_mode='binary',
+                                                              target_size=(150, 150))
+
+# Expected Output:
+# Found 22498 images belonging to 2 classes.
+# Found 2500 images belonging to 2 classes.
+Noted that: Validation Set should not be augmented, otherwise, the plot of accuracy and loss graph is so fluctuant and the performance is not good as well.
+
+# Define a Callback class that stops training once accuracy reaches 95.9%
+class myCallback(tf.keras.callbacks.Callback):
+  def on_epoch_end(self, epoch, logs={}):
+    if(logs.get('acc')>0.959):
+      print("\nReached 95.9% accuracy so cancelling training!")
+      self.model.stop_training = True
+      
+callbacks = myCallback()
+
+history = model.fit_generator(train_generator,
+                              epochs=15,
+                              verbose=1,
+                              validation_data=validation_generator
+                              callbacks=[callbacks]                  
+                              )
+-w797
+
+%matplotlib inline
+
+import matplotlib.image  as mpimg
+import matplotlib.pyplot as plt
+
+#-----------------------------------------------------------
+# Retrieve a list of list results on training and test data
+# sets for each training epoch
+#-----------------------------------------------------------
+acc=history.history['acc']
+val_acc=history.history['val_acc']
+loss=history.history['loss']
+val_loss=history.history['val_loss']
+
+epochs=range(len(acc)) # Get number of epochs
+
+#------------------------------------------------
+# Plot training and validation accuracy per epoch
+#------------------------------------------------
+plt.plot(epochs, acc, 'r', "Training Accuracy")
+plt.plot(epochs, val_acc, 'b', "Validation Accuracy")
+plt.title('Training and validation accuracy')
+plt.figure()
+
+#------------------------------------------------
+# Plot training and validation loss per epoch
+#------------------------------------------------
+plt.plot(epochs, loss, 'r', "Training Loss")
+plt.plot(epochs, val_loss, 'b', "Validation Loss")
+plt.figure()
+-w966
+
+import numpy as np
+from google.colab import files
+from keras.preprocessing import image
+
+uploaded = files.upload()
+
+for fn in uploaded.keys():
+ 
+  # predicting images
+  path = '/content/' + fn
+  img = image.load_img(path, target_size=(150, 150))
+  x = image.img_to_array(img)
+  x = np.expand_dims(x, axis=0)
+
+  images = np.vstack([x])
+  classes = model.predict(images, batch_size=10)
+  print(classes[0])
+  if classes[0]>0.5:
+    print(fn + " is a dog")
+  else:
+    print(fn + " is a cat")
+
+
