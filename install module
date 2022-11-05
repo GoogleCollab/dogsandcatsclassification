@@ -1,0 +1,16 @@
+!wget --no-check-certificate \
+    https://storage.googleapis.com/mledu-datasets/cats_and_dogs_filtered.zip \
+    -O /tmp/cats_and_dogs_filtered.zip   
+  
+    
+    output(dont copy paste it this will be shown as you ctrl+enter or run)
+    --2022-11-05 10:33:23--  https://storage.googleapis.com/mledu-datasets/cats_and_dogs_filtered.zip
+Resolving storage.googleapis.com (storage.googleapis.com)... 74.125.20.128, 74.125.197.128, 74.125.135.128, ...
+Connecting to storage.googleapis.com (storage.googleapis.com)|74.125.20.128|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 68606236 (65M) [application/zip]
+Saving to: ‘/tmp/cats_and_dogs_filtered.zip’
+
+/tmp/cats_and_dogs_ 100%[===================>]  65.43M   147MB/s    in 0.4s    
+
+2022-11-05 10:33:23 (147 MB/s) - ‘/tmp/cats_and_dogs_filtered.zip’ saved [68606236/68606236]
